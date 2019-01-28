@@ -89,7 +89,7 @@ else {
   }
   stage('Blue/Green Production Deployment') {
     withEnv(["destApp=${destApp}","prodTag=${prodTag}"]){
-      sh 'oc set env dc/${destApp} VERSION="${prodTag} (tasks-prod)" -n 0691-tasks-prod'
+      sh 'oc set env dc/${destApp} VERSION="${prodTag} ${destApp}" -n 0691-tasks-prod'
       sh "oc set image dc/${destApp} ${destApp}=docker-registry.default.svc:5000/0691-tasks-dev/tasks:${prodTag} -n 0691-tasks-prod"
       sh "oc rollout latest dc/${destApp} -n 0691-tasks-prod"
   }
